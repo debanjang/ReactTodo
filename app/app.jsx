@@ -3,6 +3,7 @@
  var React = require('react');
 var {Router, Route, IndexRoute, hashHistory} = require('react-router');
 var ReactDOM = require('react-dom');
+var TodoApp = require('TodoApp');
 
 
 //Fire up foundation
@@ -13,7 +14,7 @@ require('style!css!sass!applicationStyles');
 
 // RaectDOM.render is the starting point of the application. render to the app container
 ReactDOM.render(
-  <p>React Boilerplate</p>,
+  <TodoApp/>,
   document.getElementById('app')
 );
 
