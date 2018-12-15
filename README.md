@@ -1,4 +1,2 @@
-# React-Timer
-A Simple React App presenting a timer and a countdown clock
-
-Link to Live App: https://frozen-citadel-32077.herokuapp.com/
+# React-Boilerplate
+A quick start up config with React, Karma, Mocha and Foundation
