@@ -9,7 +9,8 @@ var TodoList = React.createClass({
                 {/* Spread operator '{...todos}' 
                     used to pass todos as recieved to be a part of Todo component.
                     ie. Todos.jsx will now have all attributes in todo(id and text)
-                    added to its props */}
+                    added to its props, Same as: 
+                    <Todo key={todo.id} id={todo.id} text={todo.text} */}
                 return(
                    <Todo key={todo.id} {...todo}/>
                 );
