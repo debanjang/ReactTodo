@@ -2,6 +2,11 @@ var React = require('react');
 var Todo = require('Todo');
 
 var TodoList = React.createClass({
+    
+    handleOnCompletedTodo: function(id){
+        this.props.onCompleteTodo(id);
+    },
+    
     render: function(){
         var {todos} = this.props;
         var renderTodos = ()=>{
@@ -12,7 +17,7 @@ var TodoList = React.createClass({
                     added to its props, Same as: 
                     <Todo key={todo.id} id={todo.id} text={todo.text} */}
                 return(
-                   <Todo key={todo.id} {...todo}/>
+                   <Todo key={todo.id} {...todo} onComplete={this.handleOnCompletedTodo}/>
                 );
             });
         };
