@@ -1,37 +1,26 @@
 var React = require('react');
+var uuid = require('node-uuid');
+
 var TodoList = require('TodoList');
 var AddTodo = require('AddTodo');
 var TodoSearch = require('TodoSearch');
-var uuid = require('node-uuid');
+var TodoAPI = require('TodoAPI');
 
 var TodoApp = React.createClass({
     getInitialState: function(){
         return{
             searchText:'',
             showCompleted:false,
-            todos:[
-                {
-                    id: uuid(),
-                    completed: false,
-                    text: 'Walk the dog'
-                },
-                {
-                    id: uuid(),
-                    completed: false,
-                    text: 'Feed the cat'
-                },
-                {
-                    id: uuid(),
-                    completed: false,
-                    text: 'Watch the match'
-                },
-                {
-                    id: uuid(),
-                    completed: false,
-                    text: 'Play video games'
-                }
-            ]
+            todos: TodoAPI.getTodos()
         };
+    },
+
+    /* As soon the state updates by adding a new todo, we want to store that in localStorage.
+    We use ComponentDidUpdate for this purpose */
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.todos!==this.state.todos){
+            TodoAPI.setTodos(this.state.todos);
+        }
     },
 
     handleAddTodo: function(text){
