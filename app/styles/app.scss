@@ -8,5 +8,7 @@
 @include foundation-everything; 
 
 //Components
-
+@import "components/page-title.scss";
+@import "components/container.scss";
+@import "components/todo.scss";
 
