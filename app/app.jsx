@@ -5,6 +5,19 @@ var {Router, Route, IndexRoute, hashHistory} = require('react-router');
 var ReactDOM = require('react-dom');
 var TodoApp = require('TodoApp');
 
+//test connectivity between store, reducers and actions
+//Test start
+var store = require('store').configure();
+var actions = require('actions');
+
+store.subscribe(()=>{
+  console.log('New State', store.getState());
+});
+
+store.dispatch(actions.addTodo('Walk the dog'));
+store.dispatch(actions.setSearchText('dog'));
+store.dispatch(actions.toggleShowCompleted());
+//Test end.
 
 //Fire up foundation
 $('document').foundation();
