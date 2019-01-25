@@ -1,24 +1,25 @@
  /* Since these are explicitly
  loaded dependencies in package.json, we dont need to include the full path */
  var React = require('react');
-var {Router, Route, IndexRoute, hashHistory} = require('react-router');
 var ReactDOM = require('react-dom');
 var {Provider} = require('react-redux');
-var TodoApp = require('TodoApp');
 
-//test connectivity between store, reducers and actions
-//Test start
+var TodoApp = require('TodoApp');
+var TodoAPI = require('TodoAPI');
 var store = require('store').configure();
-//var actions = require('actions');
+var actions = require('actions');
 
 store.subscribe(()=>{
-  console.log('New State', store.getState());
+  var state = store.getState();
+  //everytime the state changes, set the new todos in the localStorage
+  TodoAPI.setTodos(state.todos);
+  console.log('New State', state);
 });
 
-/* store.dispatch(actions.addTodo('Walk the dog'));
-store.dispatch(actions.setSearchText('dog'));
-store.dispatch(actions.toggleShowCompleted()); */
-//Test end.
+//get the initial todos from the local storage
+var initialTodos = TodoAPI.getTodos();
+//dispatch an action to set the initial todos from lcoal storage into the state
+store.dispatch(actions.addTodos(initialTodos));
 
 //Fire up foundation
 $('document').foundation();
