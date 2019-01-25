@@ -3,20 +3,21 @@
  var React = require('react');
 var {Router, Route, IndexRoute, hashHistory} = require('react-router');
 var ReactDOM = require('react-dom');
+var {Provider} = require('react-redux');
 var TodoApp = require('TodoApp');
 
 //test connectivity between store, reducers and actions
 //Test start
 var store = require('store').configure();
-var actions = require('actions');
+//var actions = require('actions');
 
 store.subscribe(()=>{
   console.log('New State', store.getState());
 });
 
-store.dispatch(actions.addTodo('Walk the dog'));
+/* store.dispatch(actions.addTodo('Walk the dog'));
 store.dispatch(actions.setSearchText('dog'));
-store.dispatch(actions.toggleShowCompleted());
+store.dispatch(actions.toggleShowCompleted()); */
 //Test end.
 
 //Fire up foundation
@@ -25,9 +26,12 @@ $('document').foundation();
 //Load custom styles
 require('style!css!sass!applicationStyles');
 
-// RaectDOM.render is the starting point of the application. render to the app container
+//ReactDOM.render is the starting point of the application. render to the app container
+//Provider provides access to the store for all child components inside the Provider tag in ReactDom.render()
 ReactDOM.render(
-  <TodoApp/>,
+  <Provider store={store}>
+    <TodoApp/>
+  </Provider>,
   document.getElementById('app')
 );
 

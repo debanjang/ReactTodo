@@ -2,9 +2,11 @@ var React = require('react');
 var uuid = require('node-uuid');
 var moment = require('moment');
 
-var TodoList = require('TodoList');
-var AddTodo = require('AddTodo');
-var TodoSearch = require('TodoSearch');
+//import the default ie. connected todo list 
+//since the non connected one will only be required in TodoList test file
+import TodoList from 'TodoList';
+import AddTodo from 'AddTodo';
+import TodoSearch from 'TodoSearch';
 var TodoAPI = require('TodoAPI');
 
 var TodoApp = React.createClass({
@@ -48,19 +50,6 @@ var TodoApp = React.createClass({
         console.log('SearchText: '+this.state.searchText+' showCompleted: '+this.state.showCompleted);
     },
 
-    handleToggleTodo: function(id){
-        var updatedTodos = this.state.todos.map((todo)=>{
-            if(todo.id === id){
-                todo.completed = !todo.completed;
-                todo.completedAt = todo.completed? moment().unix(): undefined;
-            }
-            
-            return todo;
-        });
-
-        this.setState({todos: updatedTodos});
-    },
-    
     render: function(){
         var {todos, showCompleted, searchText} = this.state;
         var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
@@ -72,7 +61,7 @@ var TodoApp = React.createClass({
                 <div className="row">
                     <div className="container column small-11 medium-7 large-5 small-centered">
                         <TodoSearch onSearch={this.handleSearch}/>
-                        <TodoList todos={filteredTodos} onCompleteTodo={this.handleToggleTodo}/>
+                        <TodoList/>
                         <AddTodo onAddTodo={this.handleAddTodo}/>
                     </div>
                 </div>

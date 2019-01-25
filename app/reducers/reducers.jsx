@@ -42,12 +42,14 @@ export var todosReducer = (state=[], action)=>{
             var updatedTodos = state.map((todo)=>{
                 if(todo.id === action.id){
                     var newCompleted = !todo.completed;
-                }
-                return {
-                    ...todo,
-                    completed: newCompleted,
-                    completedAt: newCompleted? moment().unix():undefined
-                };
+                    return {
+                        ...todo,
+                        completed: newCompleted,
+                        completedAt: newCompleted? moment().unix():undefined
+                    };
+                }else{
+                    return todo;
+            }
             });
             return updatedTodos;
         default:

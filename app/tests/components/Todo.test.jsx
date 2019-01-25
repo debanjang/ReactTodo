@@ -4,23 +4,29 @@ var TestUtils = require('react-addons-test-utils');
 var $ = require('jquery');
 var expect = require('expect');
 
-var Todo = require('Todo');
+//Since we are exporting default and Todo from Todo.jsx, lets use import which is the new standard.
+//In this case, we will use the named export only, since we dont need to fetch a piece of the state 
+//from the Redux Store
+import {Todo} from 'Todo';
 
 describe('Todo', ()=>{
     it('should exist', ()=>{
         expect(Todo).toExist();
     });
 
-    it('should call onComplete with the correct id',()=>{
+    it('should dispatch TOGGLE_TODO action with the correct id',()=>{
         var spy = expect.createSpy();
         var todoData = {
             id: 11,
             completed: false,
             text: 'Test text'
         };
-        var todo = TestUtils.renderIntoDocument(<Todo key={todoData.id} {...todoData} onComplete={spy}/>);
+        var todo = TestUtils.renderIntoDocument(<Todo key={todoData.id} {...todoData} dispatch={spy}/>);
         var $el = $(ReactDOM.findDOMNode(todo));
         TestUtils.Simulate.click($el[0]);
-        expect(spy).toHaveBeenCalledWith(11);
+        expect(spy).toHaveBeenCalledWith({
+            type:'TOGGLE_TODO',
+            id: 11
+        });
     });
 });
