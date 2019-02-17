@@ -9,6 +9,8 @@ var TodoAPI = require('TodoAPI');
 var store = require('store').configure();
 var actions = require('actions');
 
+//import './playground/firebase/index';
+
 store.subscribe(()=>{
   var state = store.getState();
   //everytime the state changes, set the new todos in the localStorage

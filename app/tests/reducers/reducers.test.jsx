@@ -9,11 +9,10 @@ describe('Reducers',()=>{
         it('should set search text',()=>{
             var action = {
                 type: 'SET_SEARCH_TEXT',
-                searchText: 'dog'
+                searchText: 'Walk'
             };
 
             var res = reducers.searchTextReducer(df(''),df(action));
-
             expect(res).toEqual(action.searchText);
         });
     });
@@ -34,13 +33,16 @@ describe('Reducers',()=>{
         it('should add new todo',()=>{
             var action = {
                 type: 'ADD_TODO',
-                text:'Walk dog'
+                todo:{
+                    id: '123abc',
+                    text: 'Something to do'
+                }
             };
 
             var res = reducers.todosReducer(df([]),df(action));
 
             expect(res.length).toBe(1);
-            expect(res[0].text).toEqual(action.text);
+            expect(res[0]).toEqual(action.todo);
         });
 
         it('should toggle todos', ()=>{
