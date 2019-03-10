@@ -9,6 +9,8 @@ var expect = require('expect');
 //from the Redux Store
 import {Todo} from 'Todo';
 
+import * as actions from 'actions';
+
 describe('Todo', ()=>{
     it('should exist', ()=>{
         expect(Todo).toExist();
@@ -21,12 +23,11 @@ describe('Todo', ()=>{
             completed: false,
             text: 'Test text'
         };
+
+        var action = actions.startToggleTodo(todoData.id, !todoData.completed);
         var todo = TestUtils.renderIntoDocument(<Todo key={todoData.id} {...todoData} dispatch={spy}/>);
         var $el = $(ReactDOM.findDOMNode(todo));
         TestUtils.Simulate.click($el[0]);
-        expect(spy).toHaveBeenCalledWith({
-            type:'TOGGLE_TODO',
-            id: 11
-        });
+        expect(spy).toHaveBeenCalledWith(action);
     });
 });

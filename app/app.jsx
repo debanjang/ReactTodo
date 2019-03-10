@@ -20,7 +20,7 @@ store.subscribe(()=>{
 
 //get the initial todos from the local storage
 var initialTodos = TodoAPI.getTodos();
-//dispatch an action to set the initial todos from lcoal storage into the state
+//dispatch an action to set the initial todos from local storage into the state
 store.dispatch(actions.addTodos(initialTodos));
 
 //Fire up foundation

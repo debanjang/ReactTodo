@@ -43,7 +43,7 @@ export var TodoList = React.createClass({
 //In order to render the Todos Array correctly in a list, the TodoList component needs access
 //to only one part of the state ie. todos. Instead of having it passed by the parent in it's props,
 //it can now connect to the store directly and get access to it. 
-//The key of the attributes in the object returned from the is set in the props for this component.
+//The key of the attributes in the object returned from the state is set in the props for this component.
 //The syntax below should be read as TodoList is connected to the piece of the state contained in the store 
 //that is returned by the callback function that is passed as the first arg to the connect function
 // The rest of the state ie. the showCompleted, searchText is needed to filter ihe todos.

@@ -33,14 +33,13 @@ export var todosReducer = (state=[], action)=>{
                 action.todo
             ];
             
-        case 'TOGGLE_TODO':
+        case 'UPDATE_TODO':
             var updatedTodos = state.map((todo)=>{
                 if(todo.id === action.id){
-                    var newCompleted = !todo.completed;
+                    // Two spread operators mean that any matching attrs in the todo gets updated with action.updates
                     return {
                         ...todo,
-                        completed: newCompleted,
-                        completedAt: newCompleted? moment().unix():undefined
+                        ...action.updates
                     };
                 }else{
                     return todo;
@@ -52,7 +51,7 @@ export var todosReducer = (state=[], action)=>{
                 return [
                     ...state,
                     ...action.todos
-                ]
+                ];
 
             default:
             return state;

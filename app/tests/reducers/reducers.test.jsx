@@ -45,26 +45,34 @@ describe('Reducers',()=>{
             expect(res[0]).toEqual(action.todo);
         });
 
-        it('should toggle todos', ()=>{
-            var state = [
+        it('should update todos', ()=>{
+            var todoState = [
                 {
                     id: 1,
                     completed: false,
                     text: 'Walk Dog',
                     createdAt: 123,
-                    completedAt: undefined
+                    completedAt: null
                 }
             ];
             
-            var action = {
-                type: 'TOGGLE_TODO',
-                id: 1
+            var updates = {
+                completed: true,
+                completedAt: 125
             };
 
-            var res = reducers.todosReducer(df(state),df(action));
+            var action = {
+                type: 'UPDATE_TODO',
+                id: todoState[0].id,
+                updates
+            };
 
-            expect(res[0].completed).toBeTruthy();
-            expect(res[0].completedAt).toNotBe(undefined);
+            var res = reducers.todosReducer(df(todoState),df(action));
+
+            expect(res[0].completed).toEqual(updates.completed);
+            expect(res[0].completedAt).toBe(updates.completedAt);
+            //Only things that are to be updated are updated. Nothing else is affected.
+            expect(res[0].text).toEqual(todoState[0].text);
         });
 
         it('should add exisiting todos',()=>{
