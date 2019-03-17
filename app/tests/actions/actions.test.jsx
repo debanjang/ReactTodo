@@ -113,15 +113,22 @@ describe('Actions', ()=>{
     });
 });
 
-describe('Firebase Actions',()=>{
-    
+describe('Test with firebase todos',()=>{
+    var todoRef = firebaseRef.child('todos');
     var testTodoRef = firebaseRef.child('todos').push();
     beforeEach((done)=>{
-        testTodoRef.set({
-            text:'Something to do',
-            completed: false,
-            createdAt: 2345343
-        }).then(()=>done());
+        //remove all exisiting todos
+        todoRef.remove().then(()=>{
+            //only add new todos once old todos are removed
+           //return the promise to chain it. This is why we are able to have the .then() at the end of set
+            return testTodoRef.set({
+                text:'Something to do',
+                completed: false,
+                createdAt: 2345343
+            });
+        })
+        .then(()=>done())
+        .catch(done);
     });
 
     afterEach((done)=>{
@@ -149,4 +156,30 @@ describe('Firebase Actions',()=>{
             done();
         }).catch(done);
     });
+
+    it('should add todos and dispatch ADD_TODOS action', (done)=>{
+        const store = createStore({});
+        store.dispatch(actions.startAddTodos()).then(()=>{
+            //Array of all actions dispatched since the store was created
+            const mockActions = store.getActions();
+            //Expect that ADD_TODOS has been dispatched as a result of calling startAddTodos
+            expect(mockActions[0]).toInclude({
+               type: 'ADD_TODOS' 
+            });
+
+            //Expect that the todos with which ADD_TODOS is dispatched is the same that was set in the testTodoRef.
+            //ie. length = 1
+            expect(mockActions[0].todos.length).toEqual(1);
+
+            //Expect that the todos with which ADD_TODOS is dispatched is the same that was set in the testTodoRef.
+            //ie. text is same as what was saved to firebase in beforeEach
+            expect(mockActions[0].todos[0]).toInclude({
+                text:'Something to do' 
+            });
+
+            done();
+        }).catch(done);
+    });
+
+
 });

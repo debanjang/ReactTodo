@@ -9,19 +9,24 @@ var TodoAPI = require('TodoAPI');
 var store = require('store').configure();
 var actions = require('actions');
 
+//uncomment the next line and comment the ReactDOM.render to have playground files be executed
 //import './playground/firebase/index';
 
-store.subscribe(()=>{
+//Uncomment to have todos stored in local storage
+/* store.subscribe(()=>{
   var state = store.getState();
   //everytime the state changes, set the new todos in the localStorage
   TodoAPI.setTodos(state.todos);
   console.log('New State', state);
-});
+}); */
 
 //get the initial todos from the local storage
-var initialTodos = TodoAPI.getTodos();
+//var initialTodos = TodoAPI.getTodos();
 //dispatch an action to set the initial todos from local storage into the state
-store.dispatch(actions.addTodos(initialTodos));
+//store.dispatch(actions.addTodos(initialTodos));
+
+//Fetch the todos array from firebase and set it to the state
+store.dispatch(actions.startAddTodos());
 
 //Fire up foundation
 $('document').foundation();
@@ -66,3 +71,30 @@ var final=['Andrew',...names];
 final.forEach((name)=>{
     console.log("Hi "+name);
 }); */
+
+
+/* var todosFireB = {
+	"-LYwY1Ijcw7Ob98J1IuT": {
+		"completed":true,
+		"text":"Do Something",
+		"createdAt":1550425268,
+		"completedAt":null,
+		"isCompleted":1550425273
+	}
+};
+
+let todos = [];
+var todoKeys = Object.keys(todosFireB);
+for(let todoKey of todoKeys){
+  debugger;
+  let todoFireB = todosFireB[todoKey];
+  todos = [
+    ...todos,
+    {
+      ...todoFireB,
+      "id": todoKey
+    }
+  ]
+}
+
+console.log("Todos", todos); */

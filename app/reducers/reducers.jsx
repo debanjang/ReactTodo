@@ -47,13 +47,13 @@ export var todosReducer = (state=[], action)=>{
             });
             return updatedTodos;
 
-            case 'ADD_TODOS':
-                return [
-                    ...state,
-                    ...action.todos
-                ];
+        case 'ADD_TODOS':
+            return [
+                ...state,
+                ...action.todos
+            ];
 
-            default:
-            return state;
+        default:
+        return state;
     }
 };

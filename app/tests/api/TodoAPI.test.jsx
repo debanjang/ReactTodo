@@ -11,7 +11,7 @@ describe('TodoAPI',()=>{
         expect(TodoAPI).toExist();
     });
 
-    describe('setTodos',()=>{
+    /* describe('setTodos',()=>{
         it('should set valid todos array',()=>{
             var todos = [{
                 id: 21,
@@ -31,9 +31,9 @@ describe('TodoAPI',()=>{
             var actualTodos = JSON.parse(localStorage.getItem('todos'));
             expect(actualTodos).toBe(null);
         });
-    });
+    }); */
 
-    describe('getTodos',()=>{
+   /*  describe('getTodos',()=>{
         it('should retrieve todos when valid todos are present in localStorage',()=>{
             var todos = [{
                 id:24,
@@ -55,7 +55,7 @@ describe('TodoAPI',()=>{
             expect(actualTodos).toNotEqual(invalidTodos);
             expect(actualTodos).toEqual([]);
         });
-    });
+    }); */
 
     describe('filterTodos',()=>{
 
