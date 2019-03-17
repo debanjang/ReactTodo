@@ -1,5 +1,8 @@
 var webpack = require('webpack'); //import the webpack utilities
 var path = require('path');
+//Let the environment be picked up from the runtime environment.
+//If present, set it, if not present, we are on local, we will use development as the default.
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = {
     entry:[
@@ -12,11 +15,18 @@ module.exports = {
     }, // variable names that external files may be using to access modules by. 
     //jquery module access will be granted through the use of 'jQuery' keyword
     plugins:[
+      // variable names that internal files may be using to access modules by.
+      //Internal files may be using the keywords 'jQuery' or '$' to access the jquery module.
       new webpack.ProvidePlugin({
         '$':'jquery',
         'jQuery':'jquery'
-      }) // variable names that internal files may be using to access modules by.
-      //Internal files may be using the keywords 'jQuery' or '$' to access the jquery module.
+      }),
+
+      new webpack.optimize.UglifyJsPlugin({
+        compressor: {
+          warnings: false
+        }
+      })
     ],
     output: {
         path: __dirname,       //in node.js, __dirname identifies the current folder (Hello React)
@@ -60,6 +70,6 @@ module.exports = {
             path.resolve(__dirname,'./node_modules/foundation-sites/scss')
         ]
     },
-
-    devtool: 'cheap-module-eval-source-map'
+    //do not need the sourcemap in production
+    devtool: process.env.NODE_ENV === 'production'?null:'cheap-module-eval-source-map'
 };
