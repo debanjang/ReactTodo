@@ -1,8 +1,22 @@
 var webpack = require('webpack'); //import the webpack utilities
 var path = require('path');
+var envFile =require('node-env-file');
+
 //Let the environment be picked up from the runtime environment.
+//All variables in the runtime env are present in process.env in node.js
 //If present, set it, if not present, we are on local, we will use development as the default.
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+//Inject the env variables from given path into webpack.
+//After injection, all the variables will be present under process.env variable
+// For example,  API_KEY defined in the env files under config 
+//are now stored as process.env.API_KEY
+//try catch has tp be used since it will fail if there is no such file
+try{
+  envFile(path.join(__dirname,'config/'+process.env.NODE_ENV+'.env'));
+}catch(e){
+  //do nothing for the time being
+}
 
 module.exports = {
     entry:[
@@ -26,10 +40,25 @@ module.exports = {
         compressor: {
           warnings: false
         }
+      }),
+
+      //Inject the variables from webpack into bundle file.
+      //This lets us define a variable where the chosen webpack variables are to be inserted
+      //In this case, webpack.process.env
+      new webpack.DefinePlugin({
+        'webpack.process.env':{
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+          API_KEY: JSON.stringify(process.env.API_KEY),
+          AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
+          DATABASE_URL: JSON.stringify(process.env.DATABASE_URL),
+          PROJECT_ID: JSON.stringify(process.env.PROJECT_ID),
+          STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
+          MESSAGING_SENDER_ID: JSON.stringify(process.env.MESSAGING_SENDER_ID)
+        }
       })
     ],
     output: {
-        path: __dirname,       //in node.js, __dirname identifies the current folder (Hello React)
+        path: __dirname,       //in node.js, __dirname identifies the current folder (ReactTodo)
         filename: './public/bundle.js' //relative path to the output file. This file is auto-generated
     },
     resolve: {

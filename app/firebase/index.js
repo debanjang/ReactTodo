@@ -1,14 +1,15 @@
 import firebase from 'firebase';
 
+
 try{
-    // Initialize Firebase
+    // Initialize Firebase with process.env variables from webpack at runtime
     var config = {
-        apiKey: "AIzaSyCiKxfVQwlIIMJgJ227RGQS6921bczxjts",
-        authDomain: "debanjan-todo-app.firebaseapp.com",
-        databaseURL: "https://debanjan-todo-app.firebaseio.com",
-        projectId: "debanjan-todo-app",
-        storageBucket: "debanjan-todo-app.appspot.com",
-    messagingSenderId: "1046433510172"
+        apiKey: webpack.process.env.API_KEY,
+        authDomain: webpack.process.env.AUTH_DOMAIN,
+        databaseURL: webpack.process.env.DATABASE_URL,
+        projectId: webpack.process.env.PROJECT_ID,
+        storageBucket: webpack.process.env.STORAGE_BUCKET,
+        messagingSenderId: webpack.process.env.MESSAGING_SENDER_ID
     };
     firebase.initializeApp(config);
 }catch(e){
