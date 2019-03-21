@@ -25,7 +25,7 @@ module.exports = {
 
     filterTodos: function(todos, showCompleted, searchText){
         var filteredTodos = todos;
-        var searchString = searchText.toLowerCase();
+        var searchString = searchText?searchText.toLowerCase():"";
 
         /* Filter by completed and showCompleted. 
         Completed todos should only show up when show completed is true */
