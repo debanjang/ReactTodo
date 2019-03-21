@@ -36,7 +36,8 @@ export var todosReducer = (state=[], action)=>{
         case 'UPDATE_TODO':
             var updatedTodos = state.map((todo)=>{
                 if(todo.id === action.id){
-                    // Two spread operators mean that any matching attrs in the todo gets updated with action.updates
+                    // Two spread operators mean that any matching attrs 
+                    //in the todo gets updated with action.updates
                     return {
                         ...todo,
                         ...action.updates
