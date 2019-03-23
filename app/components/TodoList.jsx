@@ -1,5 +1,5 @@
-var React = require('react');
-var {connect} = require('react-redux');
+import React from 'react';
+import {connect} from 'react-redux';
 
 //import the connected component ie. default export
 //since the non connected one is only required in Todo.test.jsx file
