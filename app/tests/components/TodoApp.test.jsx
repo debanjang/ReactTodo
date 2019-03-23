@@ -5,7 +5,7 @@ var $ = require('jquery');
 var expect = require('expect');
 var {Provider} = require('react-redux')
 
-var TodoApp = require('TodoApp');
+import {TodoApp} from 'TodoApp';
 //import the default ie. connected todo list 
 //since the non connected one will only be required in TodoList test file
 import TodoList from 'TodoList';

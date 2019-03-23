@@ -16,6 +16,7 @@ try{
     
 }
 
+export var githubProvider = new firebase.auth.GithubAuthProvider();
 export var firebaseRef = firebase.database().ref();
 //The reason for exporting default is when someone imports our file, one also imports the library
 export default firebase;

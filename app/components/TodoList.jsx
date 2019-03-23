@@ -16,6 +16,7 @@ export var TodoList = React.createClass({
     render: function(){
         var {todos, showCompleted, searchText} = this.props;
         var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
+        
         var renderTodos = ()=>{
             if(filteredTodos.length === 0){
                 return <p className="container__message"> Nothing To Do </p>;
@@ -49,6 +50,7 @@ export var TodoList = React.createClass({
 //that is returned by the callback function that is passed as the first arg to the connect function
 // The rest of the state ie. the showCompleted, searchText is needed to filter ihe todos.
 //this default export that exports the connected component, is used in other files.
+//dispatch is also set to the props by default when we connect to the store.
 export default connect(
     (state)=>{
         return state;
