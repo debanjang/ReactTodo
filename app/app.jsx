@@ -3,13 +3,23 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var {Provider} = require('react-redux');
-var {Router, Route, IndexRoute, hashHistory} = require('react-router');
+var {hashHistory} = require('react-router');
 
-import TodoApp from 'TodoApp';
-var TodoAPI = require('TodoAPI');
 var store = require('store').configure();
 var actions = require('actions');
-import Login from 'Login';
+import firebase from 'app/firebase/';
+import Router from 'app/router/';
+
+//The callback within onAuthStateChanged,
+//gets called everytime someone logs in or out of the application
+firebase.auth().onAuthStateChanged((user)=>{
+  //If user object is present, user is logged in. Otherwise, user is logged out.
+  if(user){
+    hashHistory.push("/todos");
+  }else{
+    hashHistory.push("/");
+  }
+});
 
 //Fetch the todos array from firebase and set it to the state
 store.dispatch(actions.startAddTodos());
@@ -24,12 +34,7 @@ require('style!css!sass!applicationStyles');
 //Provider provides access to the store for all child components inside the Provider tag in ReactDom.render()
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={hashHistory}>
-      <Route path="/">
-        <IndexRoute component={Login}/>
-        <Route path="/todos" component={TodoApp}/>
-      </Route>
-    </Router>
+    {Router}
   </Provider>,
   document.getElementById('app')
   );

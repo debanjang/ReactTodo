@@ -12,9 +12,9 @@ import * as actions from 'actions';
 export var TodoApp = React.createClass({
 
     //es6 way of defining a method as an object attribute
-    onLogout() {
+    onLogout(e) {
+        e.preventDefault();
         var {dispatch} = this.props;
-
         dispatch(actions.startLogout());
     },
 
