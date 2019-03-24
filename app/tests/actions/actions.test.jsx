@@ -40,31 +40,6 @@ describe('Actions', ()=>{
         expect(res).toEqual(action);
     });
 
-    /* 'done' denotes that this is a test for an async operation
-    We use 'done' to tell Mocha to stop listening for assertions and errors 
-    only when done() is called.
-    Even the catch block is called with done. If in case anything goes wrong 
-    done() will be called with the error object. 
-    If 'done' is called with any arguments, it will assume that the test has failed
-    and will print the arguments with the error message on the screen. */
-    it('should add todo and dispatch ADD_TODO', (done)=>{
-        //Create an empty Mock Store
-        const store = createStore({});
-        //The text with which to call startAddTodo action
-        const todoText = 'Something to do';
-        //Call startAddTodo and once it completes successfully, make neccessary assertions 
-        store.dispatch(actions.startAddTodo(todoText))
-        .then(()=>{
-            //Get all actions that were dispatched in the mock store
-            const dispatchedActions = store.getActions();
-            expect(dispatchedActions[0].type).toEqual('ADD_TODO');
-
-            expect(dispatchedActions[0].todo.text).toEqual(todoText);
-            done();
-        })
-        .catch(done);
-    });
-
     it('should generate add todos action', ()=>{
         var todos=[{
             id: 1,
@@ -114,29 +89,34 @@ describe('Actions', ()=>{
 });
 
 describe('Test with firebase todos',()=>{
-    var todoRef = firebaseRef.child('todos');
-    var testTodoRef = firebaseRef.child('todos').push();
+    var todosRef;
+    var testTodoRef;
+    var uid;
+    
     beforeEach((done)=>{
-        //remove all exisiting todos
-        todoRef.remove().then(()=>{
-            //only add new todos once old todos are removed
-           //return the promise to chain it. This is why we are able to have the .then() at the end of set
+        firebase.auth().signInAnonymously().then((user)=>{
+            uid = user.uid;
+            todosRef = firebaseRef.child(`users/${uid}/todos`);
+
+            return todosRef.remove();
+        }).then(()=>{
+            testTodoRef = todosRef.push();
             return testTodoRef.set({
                 text:'Something to do',
                 completed: false,
                 createdAt: 2345343
             });
-        })
-        .then(()=>done())
+        }).then(()=>done())
         .catch(done);
     });
 
     afterEach((done)=>{
-        testTodoRef.remove().then(()=>done());
+        todosRef.remove().then(()=>done());
     });
 
     it('should toggle todo and dispatch UPDATE_TODO action', (done)=>{
-        const store = createStore({});
+        //Create a Mock Store with state set to {auth:{uid:uid}}
+        const store = createStore({auth:{uid}});
         const action = actions.startToggleTodo(testTodoRef.key, true);
 
         store.dispatch(action).then(()=>{
@@ -157,8 +137,9 @@ describe('Test with firebase todos',()=>{
         }).catch(done);
     });
 
-    it('should add todos and dispatch ADD_TODOS action', (done)=>{
-        const store = createStore({});
+    it('should populate todos and dispatch ADD_TODOS action', (done)=>{
+        //Create a Mock Store with state set to {auth:{uid:uid}}
+        const store = createStore({auth:{uid}});
         store.dispatch(actions.startAddTodos()).then(()=>{
             //Array of all actions dispatched since the store was created
             const mockActions = store.getActions();
@@ -179,6 +160,31 @@ describe('Test with firebase todos',()=>{
 
             done();
         }).catch(done);
+    });
+
+    /* 'done' denotes that this is a test for an async operation
+    We use 'done' to tell Mocha to stop listening for assertions and errors 
+    only when done() is called.
+    Even the catch block is called with done. If in case anything goes wrong 
+    done() will be called with the error object. 
+    If 'done' is called with any arguments, it will assume that the test has failed
+    and will print the arguments with the error message on the screen. */
+    it('should add todo and dispatch ADD_TODO', (done)=>{
+        //Create a Mock Store with state set to {auth:{uid:uid}}
+        const store = createStore({auth:{uid}});
+        //The text with which to call startAddTodo action
+        const todoText = 'Something to do';
+        //Call startAddTodo and once it completes successfully, make neccessary assertions 
+        store.dispatch(actions.startAddTodo(todoText))
+        .then(()=>{
+            //Get all actions that were dispatched in the mock store
+            const dispatchedActions = store.getActions();
+            expect(dispatchedActions[0].type).toEqual('ADD_TODO');
+
+            expect(dispatchedActions[0].todo.text).toEqual(todoText);
+            done();
+        })
+        .catch(done);
     });
 });
 

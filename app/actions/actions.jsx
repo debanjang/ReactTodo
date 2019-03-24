@@ -122,7 +122,6 @@ export var startToggleTodo = (id, completed)=>{
 };
 
 export var login = (uid)=>{
-    console.log("uid",uid);
     return{
         type: 'LOGIN',
         uid
