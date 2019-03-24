@@ -23,7 +23,7 @@ firebase.auth().onAuthStateChanged((user)=>{
 
 //Fetch the todos array from firebase and set it to the state
 store.dispatch(actions.startAddTodos());
-
+ 
 //Fire up foundation
 $('document').foundation();
 
