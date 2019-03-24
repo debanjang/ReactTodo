@@ -30,8 +30,11 @@ export var startAddTodo = (text) =>{
             createdAt: moment().unix(),
             completedAt: null
         };
+        //fetch the uid from the redux store. getState returns the store's whole state.
+        //ie. searchText, showCompleted, todos and auth
+        var uid = getState().auth.uid;
         //add to firebase
-        var todoRef = firebaseRef.child('todos').push(todo);
+        var todoRef = firebaseRef.child(`users/${uid}/todos`).push(todo);
         
         //Once todo is added to firebase, add to state. 
         //Return the promise for chaining in test files
@@ -54,10 +57,14 @@ export var addTodos = (todos) => {
 
 export var startAddTodos = ()=>{
     return (dispatch, getState)=>{
+        //fetch the uid from the redux store. getState returns the store's whole state.
+        //ie. searchText, showCompleted, todos and auth
+        var uid = getState().auth.uid;
+
         //Fetch todos from FireBase
         //Using once() on value event for first time load data
         //Return the promise for chaining in test files
-        return firebaseRef.child('todos').once('value').then((snapshot)=>{
+        return firebaseRef.child(`users/${uid}/todos`).once('value').then((snapshot)=>{
             let todos = snapshot.val() || {};
             let parsedTodos = [];
             
@@ -90,11 +97,16 @@ export var updateTodo = (id, updates) =>{
 
 export var startToggleTodo = (id, completed)=>{
     return(dispatch, getState)=>{
+        
+        //fetch the uid from the redux store. getState returns the store's whole state.
+        //ie. searchText, showCompleted, todos and auth
+        var uid = getState().auth.uid;
+        
         //es5 way to concatenate the value of id to todos
         //var todosRef = firebaseRef.child('todos/'+id);
         
         //es6 way to concatenate the value of id to todos. Template Strings
-        var todoRef = firebaseRef.child(`todos/${id}`);
+        var todoRef = firebaseRef.child(`users/${uid}/todos/${id}`);
         
         var updates = {
             completed,

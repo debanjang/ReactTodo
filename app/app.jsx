@@ -16,6 +16,9 @@ firebase.auth().onAuthStateChanged((user)=>{
   //If user object is present, user is logged in. Otherwise, user is logged out.
   if(user){
     store.dispatch(actions.login(user.uid));
+    //Fetch the todos array from firebase and set it to the state
+    //Firing it after the login since, startAddTodos is expecting uid
+    store.dispatch(actions.startAddTodos());
     hashHistory.push('/todos');
   }else{
     store.dispatch(actions.logout());
@@ -23,8 +26,6 @@ firebase.auth().onAuthStateChanged((user)=>{
   }
 });
 
-//Fetch the todos array from firebase and set it to the state
-store.dispatch(actions.startAddTodos());
  
 //Fire up foundation
 $('document').foundation();
