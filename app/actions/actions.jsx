@@ -78,7 +78,7 @@ export var startAddTodos = ()=>{
         
         
     }
-}
+};
 
 export var updateTodo = (id, updates) =>{
     return {
@@ -109,6 +109,13 @@ export var startToggleTodo = (id, completed)=>{
     };
 };
 
+export var login = (uid)=>{
+    console.log("uid",uid);
+    return{
+        type: 'LOGIN',
+        uid
+    };
+};
 
 //Log in and Log Out
 export var startLogin = ()=>{
@@ -118,6 +125,13 @@ export var startLogin = ()=>{
         }, (error)=>{
             console.log('Auth Failed!', error);
         });
+    };
+};
+
+
+export var logout = ()=>{
+    return {
+        type: 'LOGOUT'
     };
 };
 

@@ -15,9 +15,11 @@ import Router from 'app/router/';
 firebase.auth().onAuthStateChanged((user)=>{
   //If user object is present, user is logged in. Otherwise, user is logged out.
   if(user){
-    hashHistory.push("/todos");
+    store.dispatch(actions.login(user.uid));
+    hashHistory.push('/todos');
   }else{
-    hashHistory.push("/");
+    store.dispatch(actions.logout());
+    hashHistory.push('/');
   }
 });
 

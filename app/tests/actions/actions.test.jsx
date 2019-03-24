@@ -180,6 +180,25 @@ describe('Test with firebase todos',()=>{
             done();
         }).catch(done);
     });
-
-
 });
+
+describe('Auth Actions',()=>{
+    it('should generate login action',()=>{
+        var action = {
+            type: 'LOGIN',
+            uid: '1234abcd'
+        };
+
+        var res = actions.login('1234abcd');
+        expect(res).toEqual(action);
+    });
+
+    it('should generate logout action',()=>{
+        var action = {
+            type: 'LOGOUT'
+        };
+
+        var res = actions.logout();
+        expect(res).toEqual(action);
+    });
+})
