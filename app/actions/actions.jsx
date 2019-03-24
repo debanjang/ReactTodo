@@ -121,6 +121,8 @@ export var startToggleTodo = (id, completed)=>{
     };
 };
 
+//Log in and Log Out
+//Does not affect firebase, on dispatch only affects the store
 export var login = (uid)=>{
     return{
         type: 'LOGIN',
@@ -128,7 +130,6 @@ export var login = (uid)=>{
     };
 };
 
-//Log in and Log Out
 export var startLogin = ()=>{
     return (dispatch, getState)=>{
         return firebase.auth().signInWithPopup(githubProvider).then((result)=>{
@@ -139,7 +140,7 @@ export var startLogin = ()=>{
     };
 };
 
-
+//Does not affect firebase, on dispatch only affects the store
 export var logout = ()=>{
     return {
         type: 'LOGOUT'
