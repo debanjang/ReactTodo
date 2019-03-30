@@ -97,6 +97,12 @@ describe('TodoAPI',()=>{
             expect(filteredTodos.length).toBe(2);
         });
 
+        it('should filter todo items by non empty search text if uppercase',()=>{
+            var filteredTodos = TodoAPI.filterTodos(todos, true, 'Test');
+
+            expect(filteredTodos.length).toBe(2);
+        });
+
         it('should return all items when search text is empty',()=>{
             var filteredTodos = TodoAPI.filterTodos(todos, true, '');
 
