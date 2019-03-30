@@ -4,16 +4,12 @@ import {connect} from 'react-redux';
 //import the connected component ie. default export
 //since the non connected one is only required in Todo.test.jsx file
 import Todo from 'Todo';
-var TodoAPI = require('TodoAPI');
+import * as TodoAPI from 'TodoAPI';
 
-//This named export is only used in correpsonding Test file
-export var TodoList = React.createClass({
+export class TodoList extends React.Component{
     
-    /* handleOnCompletedTodo: function(id){
-        this.props.onCompleteTodo(id);
-    }, */
     
-    render: function(){
+    render(){
         var {todos, showCompleted, searchText} = this.props;
         var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
         
@@ -40,7 +36,7 @@ export var TodoList = React.createClass({
             </div>
         );
     }
-}); 
+}; 
 
 //In order to render the Todos Array correctly in a list, the TodoList component needs access
 //to only one part of the state ie. todos. Instead of having it passed by the parent in it's props,

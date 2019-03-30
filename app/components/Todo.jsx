@@ -1,19 +1,14 @@
-var React = require('react');
-var moment = require('moment');
-var actions = require('actions');
-var {connect} = require('react-redux');
+import React from 'react';
+import moment from 'moment';
+import * as actions from 'actions'
+import {connect} from 'react-redux';
 
-export var Todo = React.createClass({
-    
-    /* 
-    The arrow function in the onClick handler is the same as calling this.handleClick where: 
-    handleClick: function(){
-        this.props.onComplete(this.props.id);
-    }, */
-    
-    render: function(){
+export class Todo extends React.Component{
+    //default constructor takes care of setting props
+    render(){
         var {id,text, completed, createdAt, completedAt, dispatch} = this.props;
         var todoClassName = completed ? 'todo todo-completed':'todo'; 
+        
         var renderDates = function(){
             var message = "Created ";
             var timestamp = createdAt;
@@ -23,11 +18,13 @@ export var Todo = React.createClass({
             }
 
             return message+moment.unix(timestamp).format('Do MMMM YYYY @ hh:mm a');
-        }
+        };
 
         return(
             <div className={todoClassName} onClick={()=>{
-                    dispatch(actions.startToggleTodo(id, !completed)); //dispatch is provided by connecting to the store via connect()
+                //dispatch is provided by connecting to the store via connect().
+                //Auto Binding is present since we are using arrow function on the onClick listener callback    
+                dispatch(actions.startToggleTodo(id, !completed)); 
                 }}>
                 <div>
                     <input type="checkbox" checked={completed} />
@@ -39,7 +36,7 @@ export var Todo = React.createClass({
             </div>
         );
     }
-});
+};
 
 //connect gives access to the state contained in the store and 
 //the dispatch function required to dispatch actions to the store. 

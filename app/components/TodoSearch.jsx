@@ -3,16 +3,9 @@ var {connect} = require('react-redux');
 
 var actions = require('actions');
 
-export var TodoSearch = React.createClass({
+export class TodoSearch extends React.Component{
     
-    //No more callbacks passed from the parent, we will call the appropriate action instead
-    /* handleSearch: function(){
-        var searchText = this.refs.searchText.value;
-        var showCompleted = this.refs.showCompleted.checked;
-        this.props.onSearch(searchText, showCompleted);
-    }, */
-    
-    render: function(){
+    render(){
         var {dispatch, showCompleted, searchText} = this.props;
         return(
             <div className="container__header">
@@ -39,8 +32,9 @@ export var TodoSearch = React.createClass({
             </div>
         );
     }
-});
+};
 
+//Parts of the state in redux store, returned from the connect callback are set by default in props
 export default connect(
     (state)=>{
         return{
